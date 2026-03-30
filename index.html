@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>CodePen - A Pen by farru</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <div class="page">
+  <h1>🕵️ Anonymous Advice</h1>
+  <p>Ask anything. Get honest advice. Stay anonymous.</p>
+  <button class="ask-btn" onclick="askQuestion()">
+    Ask a Question
+  </button>
+
+  <div id="box" class="box" style="display:none;">
+    <textarea id="questionInput" 
+      placeholder="What's on your mind? 🤫 No one will know it's you...">
+    </textarea>
+    <button class="submit-btn" onclick="submitQuestion()">
+      Submit Anonymously ✨
+    </button>
+  </div>
+
+  <div id="questionsList" class="questions-list">
+    <h2>💬 Questions from people</h2>
+  </div>
+</div>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
