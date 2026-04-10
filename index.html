@@ -84,12 +84,56 @@ textarea:focus { border-color: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.
   </div>
 </div>
 
-<script>
 function askQuestion() {
-  document.getElementById("box").style.display = "flex";
+  var box = document.getElementById("box");
+  box.style.display = "flex";
 }
-// ... rest of JS
-</script>
+
+function closeBox() {
+  var box = document.getElementById("box");
+  box.style.display = "none";
+}
+
+function submitQuestion() {
+  var input = document.getElementById("questionInput");
+  var question = input.value;
+  if (question === "") {
+    alert("Please type something first!");
+  } else {
+    addQuestionToPage(question);
+    input.value = "";
+    closeBox();
+  }
+}
+
+function addQuestionToPage(question) {
+  var list = document.getElementById("questionsList");
+  var card = document.createElement("div");
+  card.className = "question-card";
+  card.innerHTML = '<div class="anon-label">🕵️ Anonymous asked</div>' +
+    '<p class="question-text">' + question + '</p>' +
+    '<button class="reply-btn" onclick="replyTo(this)">💬 Give Advice</button>' +
+    '<div class="reply-box" style="display:none;">' +
+    '<textarea placeholder="Share your honest advice... 💜"></textarea>' +
+    '<button class="submit-btn" type="button" onclick="submitReply(this)">Send Advice 🚀</button>' +
+    '</div>';
+  list.appendChild(card);
+}
+
+function replyTo(btn) {
+  btn.nextElementSibling.style.display = "block";
+  btn.style.display = "none";
+}
+
+function submitReply(btn) {
+  var textarea = btn.previousElementSibling;
+  var advice = textarea.value;
+  if (advice === "") {
+    alert("Type some advice first!");
+  } else {
+    btn.parentElement.innerHTML = '<div class="advice-text">💜 <b>Advice given:</b> ' + advice + '</div>';
+  }
+}
 </body>
 </html>
   document.getElementById("box").style.display = "flex";
