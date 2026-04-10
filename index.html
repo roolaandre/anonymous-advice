@@ -50,7 +50,7 @@ textarea:focus { border-color: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.
 @media (max-width: 500px) { h1 { font-size: 36px; } .modal { padding: 28px 20px; } .ask-btn { font-size: 15px; padding: 14px 30px; } }
 </style>
 </head>
-<body>
+</body>
 <div class="page">
   <div class="hero">
     <div class="badge">✨ 100% Anonymous • 100% Free • 100% Safe</div>
@@ -86,6 +86,12 @@ textarea:focus { border-color: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.
 
 <script>
 function askQuestion() {
+  document.getElementById("box").style.display = "flex";
+}
+// ... rest of JS
+</script>
+</body>
+</html>
   document.getElementById("box").style.display = "flex";
 }
 document.getElementById("box").addEventListener("click", function(e) {
