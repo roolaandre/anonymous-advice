@@ -1,36 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="page">
+  <div class="hero">
+    <div class="badge">✨ 100% Anonymous • 100% Free • 100% Safe</div>
+<h1>🕵️ Anonymous Advice</h1>
+<p>A safe space to ask anything.<br>No judgement. No identity. Just honest advice.</p>
 
-  <head>
-    <meta charset="UTF-8">
-    <title>CodePen - A Pen by shk</title>
-    <link rel="stylesheet" href="./style.css">
+<div class="stats">
+  <div class="stat">🔒 <span>Private</span></div>
+  <div class="stat">💬 <span>Real Advice</span></div>
+  <div class="stat">🌍 <span>Open to All</span></div>
+  <div class="stat">❤️ <span>Judgement Free</span></div>
+</div>
 
-  </head>
-    
-  <body>
-  <div class="page">
-  <h1>🕵️ Anonymous Advice</h1>
-  <p>Ask anything. Get honest advice. Stay anonymous.</p>
-  <button class="ask-btn" onclick="askQuestion()">
-    Ask a Question
-  </button>
+<p class="desc">We all have questions we're too scared to ask out loud.<br>
+This is your safe corner of the internet. Ask freely.<br>
+Real people. Real advice. Zero identity.</p>
+
+<button class="ask-btn" onclick="askQuestion()">
+  + Ask Anonymously
+</button>
+
+<p class="small-note">🔐 We never store your name, IP, or identity. Ever.</p>
+  </div>
 
   <div id="box" class="box" style="display:none;">
-    <textarea id="questionInput" 
-      placeholder="What's on your mind? 🤫 No one will know it's you...">
-    </textarea>
-    <button class="submit-btn" onclick="submitQuestion()">
-      Submit Anonymously ✨
-    </button>
+    <div class="modal">
+      <h3>🤫 What's on your mind?</h3>
+      <p class="modal-sub">Nobody will know it's you. Promise.</p>
+      <textarea id="questionInput" placeholder="Type your question here..."></textarea>
+      <button class="submit-btn" onclick="submitQuestion()">Send Anonymously 🚀</button>
+    </div>
   </div>
 
   <div id="questionsList" class="questions-list">
-    <h2>💬 Questions from people</h2>
+    <h2>🕵️ Whispers from the unknown</h2>
+   <p class="sub-hint">🌙 Every question hides a story. Every story deserves an answer.</p>
   </div>
 </div>
-    <script  src="./script.js"></script>
-
-  </body>
-  
-</html>
