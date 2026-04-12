@@ -83,18 +83,17 @@ textarea:focus { border-color: #a78bfa; }
 </div>
 
 <script>
-// 🔥 REPLACE THESE WITH YOUR OWN!!
 const SUPABASE_URL = 'https://rektektiundcyhfyryds.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJla3Rla3RpdW5kY3loZnlyeWRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NzAyNTEsImV4cCI6MjA5MTU0NjI1MX0.qRM2QU5UqKMsxT85SPwK_4QILYOMYgxUhzxSVND7Jwk';
+
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Load questions when page opens
 window.onload = async function() {
-  var { data, error } = await client.from('questions').select('*').order('created_at', { ascending: false });
+  var { data, error } = await client.from('questions').select('*, advice(*)').order('created_at', { ascending: false });
   document.getElementById('loadingMsg').style.display = 'none';
   if (data) {
     data.forEach(function(q) {
-      addQuestionToPage(q.content);
+      addQuestionToPage(q.id, q.content, q.advice);
     });
   }
 }
@@ -104,36 +103,37 @@ function askQuestion() {
 }
 
 document.getElementById("overlay").onclick = function(e) {
-  if (e.target === this) {
-    this.style.display = "none";
-  }
+  if (e.target === this) { this.style.display = "none"; }
 }
 
 async function submitQuestion() {
   var input = document.getElementById("questionInput");
   var question = input.value.trim();
-  if (question === "") {
-    alert("Please type something first!");
-    return;
-  }
-  // Save to Supabase!!
-  var { error } = await client.from('questions').insert([{ content: question }]);
-  if (error) {
-    alert("Error saving question! Try again.");
-    return;
-  }
-  addQuestionToPage(question);
+  if (question === "") { alert("Please type something first!"); return; }
+  var { data, error } = await client.from('questions').insert([{ content: question }]).select();
+  if (error) { alert("Error saving question! Try again."); return; }
+  addQuestionToPage(data[0].id, question, []);
   input.value = "";
   document.getElementById("overlay").style.display = "none";
 }
 
-function addQuestionToPage(question) {
+function addQuestionToPage(id, question, adviceList) {
   var list = document.getElementById("questionsList");
   var card = document.createElement("div");
   card.className = "question-card";
+  card.dataset.id = id;
+
+  var adviceHTML = '';
+  if (adviceList && adviceList.length > 0) {
+    adviceList.forEach(function(a) {
+      adviceHTML += '<div class="advice-text">💜 <b>Advice:</b> ' + a.content + '</div>';
+    });
+  }
+
   card.innerHTML =
     '<div class="anon-label">🕵️ Anonymous asked</div>' +
     '<p class="question-text">' + question + '</p>' +
+    adviceHTML +
     '<button class="reply-btn" onclick="replyTo(this)">💬 Give Advice</button>' +
     '<div class="reply-box">' +
     '<textarea placeholder="Share your honest advice... 💜"></textarea>' +
@@ -147,12 +147,14 @@ function replyTo(btn) {
   btn.style.display = "none";
 }
 
-function submitReply(btn) {
-  var advice = btn.previousElementSibling.value.trim();
-  if (advice === "") {
-    alert("Type some advice first!");
-    return;
-  }
+async function submitReply(btn) {
+  var textarea = btn.previousElementSibling;
+  var advice = textarea.value.trim();
+  if (advice === "") { alert("Type some advice first!"); return; }
+  var card = btn.closest('.question-card');
+  var questionId = card.dataset.id;
+  var { error } = await client.from('advice').insert([{ question_id: questionId, content: advice }]);
+  if (error) { alert("Error saving advice! Try again."); return; }
   btn.parentElement.innerHTML = '<div class="advice-text">💜 <b>Advice given:</b> ' + advice + '</div>';
 }
 </script>
